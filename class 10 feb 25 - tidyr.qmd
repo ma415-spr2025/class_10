@@ -12,11 +12,7 @@ Reshaping Data
 
 [TidyR CRAN package site](https://cran.r-project.org/web/packages/tidyr/index.html)
 
-
 [Cheatsheet](https://rstudio.github.io/cheatsheets/tidyr.pdf)
-
-
-
 
 # Pivoting
 
@@ -39,32 +35,29 @@ library(readr)
 ### Religion
 
 Example from last class:
+
 ```{r}
 relig_income
 
 ```
 
-
-
 This dataset contains **three variables**:
 
-  - **religion**, stored in the rows,
-  - **income** spread across the column names, and
-  - **count** stored in the cell values.
-  
-  
+-   **religion**, stored in the rows,
+-   **income** spread across the column names, and
+-   **count** stored in the cell values.
+
 #### Use pivot_longer():
 
-  - The first argument is the dataset to reshape, relig_income.
+-   The first argument is the dataset to reshape, relig_income.
 
-  - cols describes which columns need to be reshaped. In this case, it’s every column apart from religion.
+-   cols describes which columns need to be reshaped. In this case, it’s every column apart from religion.
 
-  - names_to gives the name of the variable that will be created from the data stored in the column names, i.e. income.
+-   names_to gives the name of the variable that will be created from the data stored in the column names, i.e. income.
 
-  - values_to gives the name of the variable that will be created from the data stored in the cell value, i.e. count.
+-   values_to gives the name of the variable that will be created from the data stored in the cell value, i.e. count.
 
-  - Neither the names_to nor the values_to column exists in relig_income, so we provide them as strings surrounded by quotes.
-
+-   Neither the names_to nor the values_to column exists in relig_income, so we provide them as strings surrounded by quotes.
 
 ```{r}
 #| label: religion example
@@ -79,10 +72,7 @@ relig_income %>%
 
 ```
 
-
-
 ### Billboard: Numeric data in column names
-
 
 ```{r}
 #| label: billboard
@@ -91,13 +81,11 @@ billboard
 
 ```
 
+-   The names become a variable called week
 
-  - The names become a variable called week
+-   The values to become a variable called rank
 
-  - The values to become a variable called rank
-
-  - Use values_drop_na to drop rows with  missing values which are created with 
-a song drops off the charts in less than 76 weeks.
+-   Use values_drop_na to drop rows with missing values which are created with a song drops off the charts in less than 76 weeks.
 
 ```{r}
 #| label: billboard pivot 1
@@ -114,10 +102,10 @@ billboard %>%
 
 Improved
 
-  - Show how long each song stayed in the charts by converting the week variable to an integer
-       - use names_prefix to strips off the wk prefix, 
-       - use names_transform to convert week into an integer
-       
+-   Show how long each song stayed in the charts by converting the week variable to an integer
+    -   use names_prefix to strips off the wk prefix,
+    -   use names_transform to convert week into an integer
+
 ```{r}
 billboard %>% 
   pivot_longer(
@@ -131,8 +119,6 @@ billboard %>%
 
 ```
 
-
-
 ### WHO
 
 ```{r}
@@ -143,9 +129,9 @@ who
 
 ```
 
-   - country, iso2, iso3, and year are already variables. They can be left as is.
-   - But the columns from new_sp_m014 to newrel_f65 encode four variables in their names.
-   
+-   country, iso2, iso3, and year are already variables. They can be left as is.
+-   But the columns from new_sp_m014 to newrel_f65 encode four variables in their names.
+
 ```{r}
 #| label: WHO 1
 
@@ -158,11 +144,10 @@ who %>%
   )
 
 ```
-   
 
 ### Household: Multiple observations per row
 
-The name of the column that belongs in the output is part of the column name in the input. 
+The name of the column that belongs in the output is part of the column name in the input.
 
 ```{r}
 #| label: household
@@ -171,13 +156,12 @@ household
 
 ```
 
+-   There are two values for each child: name and dob (date of birth).
+-   These need to go into separate columns
+-   Again: multiple variables to names_to
+    -   use names_sep to split up each variable name
+    -   Note the special name .value: this tells pivot_longer() that that part of the column name specifies the “value” being measured
 
-  - There are two values for each child: name and  dob (date of birth). 
-  - These need to go into separate columns 
-  - Again: multiple variables to names_to
-       - use names_sep to split up each variable name
-       - Note the special name .value: this tells pivot_longer() that that part of the column name specifies the “value” being measured 
-       
 ```{r}
 #| label: household 1
 
@@ -192,14 +176,10 @@ household %>%
   
 
 ```
-      
-       
-       
-
 
 ## pivot_wider()
 
-Makes a dataset wider by increasing the number of columns and decreasing the number of rows. 
+Makes a dataset wider by increasing the number of columns and decreasing the number of rows.
 
 It’s relatively rare to need pivot_wider() to make tidy data, but it’s often useful for creating summary tables for presentation, or data in a format needed by other tools.
 
@@ -217,7 +197,6 @@ fish_encounters
 
 To analyse this data, make each station a column.
 
-
 ```{r}
 #| label: fish - columns
 
@@ -229,11 +208,9 @@ fish_encounters %>%
 
 ```
 
-
 ### Tidy census
 
 The us_rent_income dataset contains information about median income and rent for each state in the US for 2017 (from the American Community Survey, retrieved with the tidycensus package).
-
 
 ```{r}
 #| label: tidy census
@@ -243,7 +220,6 @@ us_rent_income
 ```
 
 Here both estimate and moe are values columns, so we can supply them to values_from:
-
 
 ```{r}
 #| label: census wider 
@@ -256,22 +232,12 @@ us_rent_income %>%
 
 ```
 
-
-
-
-
-
-
-
-
-
 ## Longer, then wider
 
 For some problems, combining pivot_longer() and pivot_wider() is required.
 
-
-
 ### World bank
+
 world_bank_pop contains data from the World Bank about population per country from 2000 to 2018.
 
 ```{r}
@@ -281,7 +247,7 @@ world_bank_pop
 
 ```
 
- Start with the most obvious problem: year is spread across multiple columns.
+Start with the most obvious problem: year is spread across multiple columns.
 
 ```{r}
 #| label: world bank year across multiple columns
@@ -309,15 +275,9 @@ pop2 %>%
 
 ```
 
-Consider the sense of the data. 
-  - SP.POP.GROW is population growth, 
-  - SP.POP.TOTL is total population, 
-  - and SP.URB.* are the same but only for urban areas. 
-  
-Split this up into two variables: 
-  - area (total or urban) 
-  - population or growth)
+Consider the sense of the data. - SP.POP.GROW is population growth, - SP.POP.TOTL is total population, - and SP.URB.\* are the same but only for urban areas.
 
+Split this up into two variables: - area (total or urban) - population or growth)
 
 ```{r}
 #| label: WB 3
@@ -343,8 +303,3 @@ pop3 %>%
 
 
 ```
-
-
-
-
-
